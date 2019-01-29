@@ -34,6 +34,15 @@
             value: @state.amount
             onChange: @handleChange
         React.DOM.button
-          type: 'submit'
-          className: 'btn btn-primary'
-          disabled: !@valid()
+            type: 'submit'
+            className: 'btn btn-primary'
+            disabled: !@valid()
+            'Create record'
+
+          handleChange: (e) ->
+          name = e.target.name
+          @setState "#{ name }": e.target.value
+
+          valid: ->
+      	    @state.title && @state.date && @state.amount
+
