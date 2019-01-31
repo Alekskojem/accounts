@@ -1,4 +1,14 @@
 @Record = React.createClass
+    handleDelete: (e) ->
+      e.preventDefault()
+      # yeah... jQuery doesn't have a $.delete shortcut method
+      $.ajax
+        method: 'DELETE'
+        url: "/records/#{ @props.record.id }"
+        dataType: 'JSON'
+        success: () =>
+          @props.handleDeleteRecord @props.record
+
     render: ->
       React.DOM.tr null,
         React.DOM.td null, @props.record.date
