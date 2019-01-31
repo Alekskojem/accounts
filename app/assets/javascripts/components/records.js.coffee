@@ -1,11 +1,21 @@
-# наш первый компонент, файл: records.js.coffee, 
-# файл будет содержать Records компонент.
 @Records = React.createClass
 getInitialState: ->
     records: @props.data
 
   getDefaultProps: ->
     records: []
+
+    credits = @state.records.filter (val) -> val.amount >= 0
+    credits.reduce ((prev, curr) ->
+      prev + parseFloat(curr.amount)
+    ), 0
+  debits: ->
+    debits = @state.records.filter (val) -> val.amount < 0
+    debits.reduce ((prev, curr) ->
+      prev + parseFloat(curr.amount)
+    ), 0
+  balance: ->
+    @debits() + @credits()
 
    addRecord: (record) ->
        records = React.addons.update(@state.records, { $push: [record] })
@@ -43,6 +53,8 @@ getInitialState: ->
             React.DOM.th null, 'Actions'
         React.DOM.tbody null,
           for record in @state.records
+            React.createElement Record, key: record.id, record: record, handleDeleteRecord: @deleteRecord
             React.createElement Record, key: record.id, record: record, handleDeleteRecord: @deleteRecord, handleEditRecord: @updateRecord
+
 
             
