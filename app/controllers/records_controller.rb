@@ -13,10 +13,15 @@ class RecordsController < ApplicationController
       end
     end
 
+   def destroy
+     @record = Record.find(params[:id])
+     @record.destroy
+     head :no_content
+   end
+
     private
 
       def record_params
         params.require(:record).permit(:title, :amount, :date)
     end
-    
 end
